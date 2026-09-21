@@ -1,0 +1,6 @@
+{
+  "api_base": "https://dot.mindreset.tech",
+  "device_id": "YOUR_DOT_DEVICE_ID",
+  "task_key": "YOUR_TEXT_API_TASK_KEY",
+  "task_alias": "Herdr Agent"
+}

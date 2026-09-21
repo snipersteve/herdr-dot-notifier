@@ -1,0 +1,10 @@
+id = "show.herdr-dot-notifier"
+name = "Herdr DOT Notifier"
+version = "1.10.0"
+min_herdr_version = "0.8.2"
+description = "Push background agent completion events to a MindReset Dot display"
+platforms = ["macos"]
+
+[[events]]
+on = "pane.agent_status_changed"
+command = ["/usr/bin/python3", "notifier.py"]
