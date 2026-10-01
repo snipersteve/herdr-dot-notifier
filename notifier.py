@@ -600,6 +600,16 @@ def refresh_working_line(
     }
 
 
+def compact_suppressed(pane_id) -> bool:
+    """show.herdr-idle-compact 刚对该窗格发了 /compact，压缩引起的状态变化不推送。"""
+    path = (Path.home() / ".local/state/herdr/plugins/show.herdr-idle-compact"
+            / "suppress.json")
+    try:
+        return json.loads(path.read_text(encoding="utf-8")).get(pane_id, 0) > time.time()
+    except (OSError, ValueError, AttributeError):
+        return False
+
+
 def main() -> int:
     if os.environ.get("HERDR_PLUGIN_EVENT") not in (
         None,
@@ -621,6 +631,10 @@ def main() -> int:
     pane_id = clean_text(event.get("pane_id"), 100)
     if not pane_id:
         log("ignored status event without pane_id")
+        return 0
+
+    if compact_suppressed(pane_id):
+        log(f"{pane_id} {status} ignored: idle auto-compact")
         return 0
 
     try:
